@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+ import { Link, useNavigate } from 'react-router-dom';
 import { setUser } from '../../store/userSlice';
-import { Link, useNavigate } from 'react-router-dom';
 
 interface RegisterFormValues {
   email: string;
@@ -13,6 +13,12 @@ interface RegisterFormValues {
 }
 
 const UserRegister = () => {
+
+
+
+  const users = useSelector((state:any) => state?.user?.user);
+  const isLoggedIn = useSelector((state:any) => state?.user?.isLoggedIn);
+
   const initialValues: RegisterFormValues = {
     email: '',
     password: '',
@@ -26,16 +32,21 @@ const UserRegister = () => {
         'Password must contain at least one uppercase letter, one lowercase letter, one special character, one digit, and be at least 6 characters long'
       ),
   });
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (values: any) => {
-    console.log('Form Values:', values);
+  const handleSubmit = (values: RegisterFormValues) => {    
     toast.success('You are registered successfully!', {
       position: toast.POSITION.TOP_RIGHT,
     });
-    dispatch(setUser(values));
-  };
+     dispatch(setUser(values)); // Dispatch the addUser action
+   };
+
+  // const handleLogout = () => {
+  //   dispatch(clearUser());
+  // };
+
 
   return (
     <div className="flex justify-center items-center h-screen">
@@ -72,6 +83,13 @@ const UserRegister = () => {
             <button type="submit" className="bg-blue-500 px-5 py-3 rounded-xl text-white w-full">
               Register
             </button>
+
+            <div className='flex justify-between items-center mt-5'>
+              <p>Have you already register</p>
+              <Link to={"/"} className='text-blue-500'>
+                Login
+              </Link>
+            </div>
           </Form>
         </Formik>
       </div>

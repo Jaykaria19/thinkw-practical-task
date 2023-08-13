@@ -10,7 +10,8 @@ interface LoginFormValues {
   password: string;
 }
 const Login = () => {
-  const initialValues: LoginFormValues = {
+  const users = useSelector((state:any) => state.userSlice.users);
+   const initialValues: LoginFormValues = {
     email: '',
     password: '',
   };
@@ -25,19 +26,19 @@ const Login = () => {
   });
   const navigate = useNavigate();
   const handleSubmit = (values: LoginFormValues) => {
-    console.log('Form Values:', values);
-    const storedEmail = localStorage.getItem('userEmail');
-    const storedPassword = localStorage.getItem('userPassword');
-    if (storedEmail === values.email && storedPassword === values.password) {
-      toast.success('You are login successfully!', {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-      navigate('/dashboard');
-    } else {
-      toast.error('Invalid email or password', {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-    }
+
+
+    const isActive = users.filter((item:LoginFormValues) =>  JSON.stringify(item) === JSON.stringify(values))
+      if(isActive?.length > 0){        
+        toast.success('You are login successfully!', {
+              position: toast.POSITION.TOP_RIGHT,
+            });
+            navigate('/dashboard');
+      }else{
+        toast.error('Invalid email or password', {
+              position: toast.POSITION.TOP_RIGHT,
+            });
+      }
   };
 
   
