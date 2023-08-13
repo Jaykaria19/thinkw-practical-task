@@ -19,3 +19,16 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+table {
+  table-layout: fixed;
+  width: 100%;
+}
+th {
+  padding: 2px 4px;
+  text-align: left;
+}
+
+td {
+  padding: 6px;
+}
